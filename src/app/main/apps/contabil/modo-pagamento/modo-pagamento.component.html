@@ -1,0 +1,86 @@
+<div id="modopagamento" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
+
+            <!-- APP TITLE -->
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <button mat-icon-button class="mr-0 mr-sm-16" [routerLink]="'/apps/contabil/modos-pagamentos'">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+
+                <div fxLayout="column" fxLayoutAlign="start start"
+                     [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    <div class="h2" *ngIf="pageType ==='editar'">
+                        {{modoPagamento.descricao}}
+                    </div>
+                    <div class="h2" *ngIf="pageType ==='novo'">
+                        Novo Modo Pagamento
+                    </div>
+                    <div class="subtitle secondary-text">
+                        <span>Detalhes do modo de pagamento</span>
+                    </div>
+                </div>
+            </div>
+            <!-- / APP TITLE -->
+
+            <button mat-raised-button
+                    class="save-tipodocumento-button"
+                    [disabled]="modoPagamentoForm.invalid"
+                    *ngIf="pageType ==='novo'" (click)="novoModoPagamento()">
+                <span>NOVO</span>
+            </button>
+
+            <button mat-raised-button
+                    class="save-product-button"
+                    *ngIf="pageType ==='editar'" (click)="salvarModoPagamento()">
+                <span>SALVAR</span>
+            </button>
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <!-- CONTENT -->
+
+            <div class="content">
+
+                <form name="modoPagamentoForm" [formGroup]="modoPagamentoForm" 
+                        class="mat-card p-24" fxLayout="column" fxLayoutAlign="start" 
+                        fxFlex="1 0 auto">
+    
+                    <div class="h2 mb-24">Modo de Pagamento</div>
+    
+                    <div fxLayout="row" fxFlex="1 0 auto">
+
+                        <mat-form-field appearance="outline" fxFlex="100" class="px-8">
+                            <mat-label>Descrição</mat-label>
+                            <input matInput placeholder="Descrição do modo de pagamento"
+                                    name="descricao"
+                                    formControlName="descricao"
+                                    required>
+                        </mat-form-field>
+
+                    </div>     
+
+                </form>
+
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

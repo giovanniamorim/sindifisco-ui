@@ -1,0 +1,86 @@
+<div id="tipodocumento" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
+
+            <!-- APP TITLE -->
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <button mat-icon-button class="mr-0 mr-sm-16" [routerLink]="'/apps/contabil/tipos-documentos'">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+
+                <div fxLayout="column" fxLayoutAlign="start start"
+                     [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    <div class="h2" *ngIf="pageType ==='editar'">
+                        {{tipoDocumento.descricao}}
+                    </div>
+                    <div class="h2" *ngIf="pageType ==='novo'">
+                        Novo Tipo Documento
+                    </div>
+                    <div class="subtitle secondary-text">
+                        <span>Detalhes do tipo de documento</span>
+                    </div>
+                </div>
+            </div>
+            <!-- / APP TITLE -->
+
+            <button mat-raised-button
+                    class="save-tipodocumento-button"
+                    [disabled]="tipoDocumentoForm.invalid"
+                    *ngIf="pageType ==='novo'" (click)="addTipoDocumento()">
+                <span>NOVO</span>
+            </button>
+
+            <button mat-raised-button
+                    class="save-product-button"
+                    
+                    *ngIf="pageType ==='editar'" (click)="saveTipoDocumento()">
+                <span>SALVAR</span>
+            </button>
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <!-- CONTENT -->
+            <div class="content">
+
+                <form name="tipoDocumentoForm" [formGroup]="tipoDocumentoForm" 
+                        class="mat-card p-24" fxLayout="column" fxLayoutAlign="start" 
+                        fxFlex="1 0 auto">
+    
+                    <div class="h2 mb-24">Tipo de Documento</div>
+    
+                    <div fxLayout="row" fxFlex="1 0 auto">
+
+                        <mat-form-field appearance="outline" fxFlex="100" class="px-8">
+                            <mat-label>Descrição</mat-label>
+                            <input matInput placeholder="Descrição do tipo de documento"
+                                    name="descricao"
+                                    formControlName="descricao"
+                                    required>
+                        </mat-form-field>
+
+                    </div>     
+
+                </form>
+
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

@@ -1,0 +1,182 @@
+<div id="despesa" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
+
+            <!-- APP TITLE -->
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <button mat-icon-button class="mr-0 mr-sm-16" [routerLink]="'/apps/contabil/lancamentos/despesas'">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+
+                <div fxLayout="column" fxLayoutAlign="start start"
+                     [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    <div class="h2" *ngIf="pageType ==='editar'">
+                        {{dsepesa.descricao}}
+                    </div>
+                    <div class="h2" *ngIf="pageType ==='nova'">
+                        Nova Despesa
+                    </div>
+                    <div class="subtitle secondary-text">
+                        <span>Detalhes da despesa</span>
+                    </div>
+                </div>
+            </div>
+            <!-- / APP TITLE -->
+
+            <button mat-raised-button
+                    class="save-despesa-button"
+                    [disabled]="despesaForm.invalid"
+                    *ngIf="pageType ==='nova'" (click)="novaDespesa()">
+                <span>NOVO</span>
+            </button>
+
+            <button mat-raised-button
+                    class="save-product-button"
+                    
+                    *ngIf="pageType ==='editar'" (click)="atualizarDespesa()">
+                <span>SALVAR</span>
+            </button>
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <!-- CONTENT -->
+            <div class="content">
+
+                <form name="despesaForm" [formGroup]="despesaForm" 
+                        class="mat-card p-24" fxLayout="column" fxLayoutAlign="start" 
+                        fxFlex="1 0 auto">
+    
+                    <div class="h2 mb-24">Nova Despesa</div>
+    
+                    <div fxLayout="row" fxFlex="1 1 5em">
+
+                        <mat-form-field appearance="standard" fxFlex="30" class="px-8">
+                            <mat-label>Data</mat-label>
+                            <input matInput [matDatepicker]="picker" placeholder="Data da despesa" 
+                                    name="data"
+                                    formControlName="data"
+                                    required>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="standard" fxFlex="35" class="px-8">
+                            <mat-label>Plano de Conta</mat-label>
+                            <input matInput placeholder="Plano de Conta"
+                                    name="planoConta"
+                                    formControlName="planoConta"
+                                    required>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="standard" fxFlex="35" class="px-8">
+                            <mat-label>Modo de Pagamento</mat-label>
+                            <mat-select formControlName="modosPagamentos">
+                                <mat-option *ngFor="let modoPagamento of modosPagamentos" [value]="modoPagamento.id">
+                                {{modoPagamento.descricao}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-icon matSuffix class="disabled-text">domain</mat-icon>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div fxLayout="row" fxFlex="1 1 5em">    
+                        <mat-form-field appearance="standard" fxFlex="30" class="px-8">
+                            <mat-label>Tipo de Documento</mat-label>
+                            <mat-select formControlName="tiposDocumentos">
+                                <mat-option *ngFor="let tipoDocumento of tiposDocumentos" [value]="tipoDocumento.id">
+                                {{tipoDocumento.descricao}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-icon matSuffix class="disabled-text">domain</mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="standard" fxFlex="35" class="px-8">
+                            <mat-label>Valor</mat-label>     
+                                <input matInput 
+                                    type="text"
+                                    placeholder="R$ 0.000,00"
+                                    [ngModel]="valor | currency:'BRL':true:'1.2-2'"
+                                    name="valor"
+                                    formControlName="valor"
+                                    required>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="standard" fxFlex="35" class="px-8">
+                            <mat-label>Número do Cheque</mat-label>
+                            <input matInput placeholder="Número do Cheque" 
+                                    name="numCheque"
+                                    formControlName="numCheque">
+                        </mat-form-field>
+
+                    </div>
+
+                    <div fxLayout="row" fxFlex="1 1 5em">
+
+                        <mat-form-field appearance="standard" fxFlex="30" class="px-8">
+                            <mat-label>Número do Documento</mat-label>
+                            <input 
+                                matInput placeholder="Número do Documento" 
+                                name="numDocumento"
+                                formControlName="numDocumento">
+                        </mat-form-field>
+
+                        
+                        <mat-form-field appearance="standard" fxFlex="30" class="px-8">
+                            <mat-label>Observação</mat-label>
+                            <textarea 
+                                matInput placeholder="Descreva uma observação" 
+                                name="observacao"
+                                formControlName="observacao">
+                            </textarea>
+                        </mat-form-field>
+    
+                    </div>
+
+                    <br><br><br>
+                    <!-- Área de Upload-->
+                    <!-- <mat-card> -->
+                        <div fxLayout="row" fxFlex="2 1 5em">
+                            <div appearance="standard" fxFlex="100" class="px-8">
+                                <div *ngIf="currentFileUpload" class="progress">
+                                    <mat-progress-bar mode="determinate" value="{{progress.percentage}}"></mat-progress-bar>
+                                </div>
+                                <br>   
+                                    <label>
+                                        <input
+                                            type="file"
+                                            name="imagemDocumento" 
+                                            (change)="selectFile($event)"
+                                            formControlName="imagemDocumento">
+                                    </label>
+                                <button mat-raised-button color="primary" [disabled]="!selectedFiles" (click)="upload()">Upload</button>
+                            </div>
+
+                        </div>
+                    <!-- </mat-card> -->
+                    
+
+                </form>
+
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

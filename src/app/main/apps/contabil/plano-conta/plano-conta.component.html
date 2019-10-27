@@ -1,0 +1,133 @@
+<div id="planoconta" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
+
+            <!-- APP TITLE -->
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <button mat-icon-button class="mr-0 mr-sm-16" [routerLink]="'/apps/contabil/plano-contas'">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+
+                <div fxLayout="column" fxLayoutAlign="start start"
+                     [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    <div class="h2" *ngIf="pageType ==='editar'">
+                        {{planoConta.descricao}}
+                    </div>
+                    <div class="h2" *ngIf="pageType ==='novo'">
+                        Novo Plano Conta
+                    </div>
+                    <div class="subtitle secondary-text">
+                        <span>Detalhes do plano de conta</span>
+                    </div>
+                </div>
+            </div>
+            <!-- / APP TITLE -->
+
+            <button mat-raised-button
+                    class="save-tipodocumento-button"
+                    [disabled]="planoContaForm.invalid"
+                    *ngIf="pageType ==='novo'" (click)="novoPlanoConta()">
+                <span>NOVO</span>
+            </button>
+
+            <button mat-raised-button
+                    class="save-product-button"
+                    *ngIf="pageType ==='editar'" (click)="salvarPlanoConta()">
+                <span>SALVAR</span>
+            </button>
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <!-- CONTENT -->
+
+            <form name="planoContaForm" [formGroup]="planoContaForm" 
+                    class="mat-card p-24" fxLayout="column" fxLayoutAlign="start"
+                    fxFlex="1 0 auto" >
+
+                <div class="h2 mb-24">Plano de Contas</div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <mat-form-field appearance="outline" fxFlex="30" class="px-8">
+                        <mat-label>Tipo de Lançamento</mat-label>
+                        <mat-select formControlName="tipoLancamento">
+                            <mat-option *ngFor="let tipoLancamento of tiposLancamentos" [value]="tipoLancamento.valor">
+                            {{tipoLancamento.descricao}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-icon matSuffix class="disabled-text">domain</mat-icon>
+                    </mat-form-field>
+                    
+                    <mat-form-field appearance="outline" fxFlex="70" class="pr-4">
+                        <mat-label>Descrição</mat-label>
+                        <input matInput formControlName="descricao" required>
+                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                        <mat-error>A descrição do plano de contas é obrigatória!</mat-error>
+                    </mat-form-field>
+
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <mat-form-field appearance="outline" fxFlex="100">
+                        <mat-label>Código do Plano de Contas</mat-label>
+                        <input matInput formControlName="codigo">
+                        <mat-icon matSuffix class="disabled-text">domain</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex="50" class="px-8">
+                        <mat-label>Plano de Conta Pai</mat-label>
+                        <mat-select formControlName="contaPai">
+                            <mat-option *ngFor="let contaPai of contasPais" [value]="contaPai.id">
+                            {{contaPai.descricao}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-icon matSuffix class="disabled-text">domain</mat-icon>
+                    </mat-form-field>
+
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <mat-form-field appearance="outline" fxFlex="50" class="px-8">
+                        <mat-label>Profundidade</mat-label>
+                        <mat-select formControlName="profundidade">
+                            <mat-option *ngFor="let profundidade of profundidades" [value]="profundidade.valor">
+                            {{profundidade.descricao}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-icon matSuffix class="disabled-text">domain</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex="50">
+                        <mat-label>Ano</mat-label>
+                        <input matInput formControlName="ano" required>
+                        <mat-icon matSuffix class="secondary-text">location_city</mat-icon>
+                        <mat-error>O ano do exercício é obrigatório</mat-error>
+                    </mat-form-field>
+
+                </div>
+
+            </form>
+
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

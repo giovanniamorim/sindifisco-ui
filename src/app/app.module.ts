@@ -18,6 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
+
 import { registerLocaleData, CommonModule } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 
@@ -43,6 +44,8 @@ import { environment } from 'environments/environment';
 import { SindiHttp } from './main/apps/seguranca/sindi-http';
 import { Error404Component } from './main/pages/errors/404/error-404.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 
 const appRoutes: Routes = [
     {
@@ -87,7 +90,7 @@ const appRoutes: Routes = [
         RouterModule.forRoot(appRoutes),
         MatInputModule,
         HttpClientModule,
-
+        MatSlideToggleModule,
 
         TranslateModule.forRoot(),
         InMemoryWebApiModule.forRoot(FakeDbService, {
@@ -116,7 +119,6 @@ const appRoutes: Routes = [
         MatSelectModule,
         MatRadioModule,
         MatFormFieldModule,
-        
 
         // Fuse modules
         FuseModule.forRoot(fuseConfig),

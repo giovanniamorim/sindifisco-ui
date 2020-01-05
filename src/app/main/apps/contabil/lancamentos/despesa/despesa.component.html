@@ -20,7 +20,7 @@
                 <div fxLayout="column" fxLayoutAlign="start start"
                     [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
                     <div class="h2" *ngIf="pageType ==='editar'">
-                        {{despesa.descricao}}
+                        Editando Despesa de ID: {{despesa.id}}
                     </div>
                     <div class="h2" *ngIf="pageType ==='novo'">
                         Nova Despesa
@@ -55,7 +55,7 @@
 
                     <div fxLayout="row" fxFlex="1 1 5em">
 
-                        <mat-form-field appearance="outline" fxFlex="25" class="px-8">
+                        <mat-form-field appearance="outline" fxFlex="15" class="px-8">
                             <mat-label>Data</mat-label>
                             <input matInput [matDatepicker]="picker" placeholder="Data da despesa" name="data"
                                 formControlName="data" required>
@@ -63,10 +63,16 @@
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
 
-                        <mat-form-field appearance="outline" fxFlex="25" class="px-8">
+                        <mat-form-field appearance="outline" fxFlex="15" class="px-8">
+                            <mat-label>Ano</mat-label>
+                            <input matInput placeholder="Ano" name="ano"
+                                formControlName="ano">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" fxFlex="20" class="px-8">
                             <mat-label>Valor</mat-label>
                             <input matInput type="text" placeholder="R$ 0.000,00" name="valor" formControlName="valor"
-                                required>
+                            required>
                         </mat-form-field>
 
                         <mat-form-field appearance="outline" fxFlex="25" class="px-8">
@@ -79,12 +85,19 @@
                             <mat-label>Número do Cheque</mat-label>
                             <input matInput placeholder="Número do Cheque" name="numCheque" formControlName="numCheque">
                         </mat-form-field>
-
                     </div>
 
-
                     <div fxLayout="row" fxFlex="1 1 5em">
-                        <mat-form-field appearance="outline" fxFlex="50" class="px-8">
+
+                        <mat-form-field appearance="outline" fxFlex="15" class="px-8">
+                            <mat-label>Sup. Caixa?</mat-label>
+                            <mat-select formControlName="supCaixas">
+                                <mat-option *ngFor="let key of keys" [value]="key">{{ supCaixaEnum[key] }}</mat-option>
+                            </mat-select>
+                            <mat-icon matSuffix class="disabled-text">domain</mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" fxFlex="35" class="px-8">
                             <mat-label>Plano de Conta</mat-label>
                             <mat-select [compareWith]="compareContas" formControlName="planosContas">
                                 <mat-option *ngFor="let planoConta of planosContas" [value]="planoConta">

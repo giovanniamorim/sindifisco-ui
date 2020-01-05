@@ -1,5 +1,5 @@
 import { ModoPagamento } from './../../modo-pagamento/modo-pagamento.model';
-import { PlanoConta, TipoLancamento, SupCaixa } from './../../plano-conta/plano-conta.model';
+import { PlanoConta, TipoLancamento, SupCaixa, SupCaixaEnum } from './../../plano-conta/plano-conta.model';
 import { TipoDocumento } from '../../tipo-documento/tipo-documento.model';
 
 
@@ -13,7 +13,7 @@ export class Despesa
     numCheque: string;
     tipoDocumento: TipoDocumento [];
     numDocumento: string;
-    supCaixa: SupCaixa [];
+    supCaixa: SupCaixaEnum;
     observacao: string;
     imagemDocumento: string;
     ano: string;

@@ -3,9 +3,9 @@ export interface TipoLancamento {
     descricao: string;
   }
 
-export interface SupCaixa {
-valor: string;
-descricao: string;
+export enum SupCaixaEnum {
+    SIM = 'SIM',
+    NÃO = 'NÃO'
 }
 
 export interface TipoProfundidade {

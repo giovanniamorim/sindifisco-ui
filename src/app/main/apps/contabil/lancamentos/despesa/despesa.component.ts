@@ -1,5 +1,5 @@
 import { PlanoContaService } from './../../plano-conta/plano-conta.service';
-import { PlanoConta } from './../../plano-conta/plano-conta.model';
+import { PlanoConta, SupCaixa, SupCaixaEnum } from './../../plano-conta/plano-conta.model';
 import { TiposDocumentosService } from './../../tipos-documentos/tipos-documentos.service';
 import { TipoDocumentoService } from './../../tipo-documento/tipo-documento.service';
 import { TipoDocumento } from './../../tipo-documento/tipo-documento.model';
@@ -39,6 +39,9 @@ export class DespesaComponent implements OnInit, OnDestroy
     modosPagamentos: ModoPagamento[] = [];
     tiposDocumentos: TipoDocumento[] = [];
     planosContas: PlanoConta[] = [];
+
+    supCaixaEnum = SupCaixaEnum;
+    keys = [];
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -117,6 +120,9 @@ export class DespesaComponent implements OnInit, OnDestroy
                     console.log(err);
                 });
 
+        this.keys = Object.keys(this.supCaixaEnum);
+        
+
     }
 
     /**
@@ -150,7 +156,7 @@ export class DespesaComponent implements OnInit, OnDestroy
             numCheque       : [this.despesa.numCheque],
             tiposDocumentos : [this.despesa.tipoDocumento],
             numDocumento    : [this.despesa.numDocumento],
-            supCaixa        : [this.despesa.supCaixa],
+            supCaixas       : [this.despesa.supCaixa],
             observacao      : [this.despesa.observacao],
             imagemDocumento : [this.despesa.imagemDocumento],
             ano             : [this.despesa.ano],
@@ -160,8 +166,6 @@ export class DespesaComponent implements OnInit, OnDestroy
         console.log('Modos Pagamentos Vai: ', this.modosPagamentos);
         console.log('Tipos de Documentos Vai: ', this.tiposDocumentos);
     }
-
-
     
     /**
      * Atualizar despesa
@@ -213,6 +217,10 @@ export class DespesaComponent implements OnInit, OnDestroy
 
     compareContas(pc1: any, pc2: any): any {
         return (pc1.id === pc2.id && pc1.descricao === pc2.descricao);
+    }
+
+    compareSupCaixas(sc1: any, sc2: any): any {
+        return (sc1.descricao === sc2.descricao );
     }
 
 }

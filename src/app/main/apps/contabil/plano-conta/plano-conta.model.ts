@@ -22,22 +22,9 @@ export class PlanoConta {
     id: number;
     codigo: string;
     descricao: string;
-
-    contasPais: ContaPai [] = [
-        {id: 1, descricao: 'Receitas Correntes'},
-        { id: 2, descricao: 'Receitas Gerais'}
-    ];
-
-    profundidades: TipoProfundidade [] = [
-        { valor: 'ANALÍTICA', descricao: 'ANALÍTICA' },
-        { valor: 'SINTÉTICA', descricao: 'SINTÉTICA' }
-    ];
-
-    tiposLancamentos: TipoLancamento [] = [
-        { valor: 'RECEITA', descricao: 'RECEITA' },
-        { valor: 'DESPESA', descricao: 'DESPESA' }
-    ];
-
+    contasPais: ContaPai [] = [];
+    profundidades: TipoProfundidade [] = [];
+    tiposLancamentos: TipoLancamento [] = [];
     ano: string;
 
     // outras propriedades
@@ -49,8 +36,7 @@ export class PlanoConta {
      *
      * @param planoConta
      */
-    constructor(planoConta?)
-    {
+    constructor(planoConta?) {
         planoConta = planoConta || {};
         this.id = planoConta.id ;
         this.codigo = planoConta.codigo || '';

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { AuthService } from './seguranca/auth.service';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -5,10 +6,10 @@ import { RouterModule } from '@angular/router';
 import { FuseSharedModule } from '@fuse/shared.module';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule, MatDatepicker, MatDatepickerModule } from '@angular/material';
+import { MatButtonModule, MatDatepicker, MatDatepickerModule, MatInputModule, MatFormFieldModule, MatRippleModule, MatIconModule } from '@angular/material';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { NgForm } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 
 const routes = [
@@ -79,7 +80,19 @@ const routes = [
         MatButtonModule,
         MatCardModule,
         MatToolbarModule,
-        MatDatepickerModule
+        MatDatepickerModule,
+        FormsModule,
+        MatInputModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatRippleModule,
+        CommonModule,
+        RouterModule,
+
+        MatIconModule,
+        MatInputModule,
+        MatFormFieldModule
     ],
     declarations: [
         ConfirmationDialogComponent, 

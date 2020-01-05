@@ -2,7 +2,7 @@ import { AuthService } from './../../seguranca/auth.service';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators/catchError';
 import { ErrorObservable} from 'rxjs/observable/ErrorObservable';
@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 import 'rxjs/add/operator/map';
 import { SindiHttp } from '../../seguranca/sindi-http';
 import { environment } from 'environments/environment';
+import { TipoDocumento } from '../tipo-documento/tipo-documento.model';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class TiposDocumentosService implements Resolve<any>
@@ -74,6 +76,16 @@ export class TiposDocumentosService implements Resolve<any>
         });
     }
 
+    getTiposDocumentos2(): Observable<TipoDocumento[]> {
+        return this._http.get<TipoDocumento[]>(`${this.tiposDocumentosUrl}`)
+            .pipe(
+                tap(tiposDocumentos => console.log('mostra tiposDocumentos')),
+                catchError(this.handleError2('getTiposDocumentos2', []))
+            );
+    }
+
+
+
 
     deleteTipoDocumento(id: number): any {
         return this._http.delete(`${this.tiposDocumentos}/${id}`)
@@ -89,4 +101,16 @@ export class TiposDocumentosService implements Resolve<any>
 
         return new ErrorObservable();
     }
+
+
+    private handleError2<T> (operation = 'operation', result?: T): any {
+        return (error: any): Observable<T> => {
+      
+          // TODO: send the error to remote logging infrastructure
+          console.error(error); // log to console instead
+      
+          // Let the app keep running by returning an empty result.
+          return of(result as T);
+        };
+      }
 }

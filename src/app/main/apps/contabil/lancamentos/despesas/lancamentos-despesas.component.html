@@ -130,20 +130,21 @@
                     <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
                         <mat-cell *matCellDef="let despesa" fxShow.gt-xs>
                             <button *ngIf="_auth.temPermissao('ROLE_LANCAMENTO_ATUALIZAR')"
-                                mat-mini-fab 
+                                mat-icon-button 
                                 color="primary"
-                                [routerLink]="'/apps/contabil/lancamentos/despesa/'+despesa.id+'/'+despesa.handle">
+                                [routerLink]="'/apps/contabil/lancamentos/despesa/'+despesa.id">
                                 <mat-icon aria-label="Editar">edit</mat-icon>
                             </button>
                             <button *ngIf="_auth.temPermissao('ROLE_LANCAMENTO_DELETAR')"
-                                mat-mini-fab 
+                                mat-icon-button 
                                 color="primary" 
                                 (click)="deleteDespesa(despesa.id)" >
                                 <mat-icon aria-label="Delete">delete</mat-icon>
                             </button>
 
                             <button 
-                                mat-mini-fab color="primary" 
+                                mat-icon-button 
+                                color="primary" 
                                 (click)="detalharDespesa(despesa.id)" 
                                 >
                                 <mat-icon aria-label="Detalhar">visibility</mat-icon>

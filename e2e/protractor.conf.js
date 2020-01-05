@@ -11,7 +11,8 @@ exports.config = {
     capabilities     : {
         'browserName': 'chrome'
     },
-    directConnect    : true,
+    useAllAngular2AppRoots: true,
+    // directConnect    : true,
     baseUrl          : 'http://localhost:4200/',
     framework        : 'jasmine',
     jasmineNodeOpts  : {

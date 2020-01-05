@@ -57,7 +57,6 @@
     "moment": "2.22.2",
     "ng-toast": "2.0.0",
     "ng2-charts": "1.6.0",
-    "ng2-currency-mask": "5.3.1",
     "ng2-toasty": "4.0.3",
     "ngrx-store-freeze": "0.2.4",
     "ngx-color-picker": "7.0.2",

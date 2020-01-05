@@ -1,7 +1,9 @@
+import { tap, catchError } from 'rxjs/operators';
+import { TipoDocumento } from './tipo-documento.model';
 import { AuthService } from './../../seguranca/auth.service';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { BehaviorSubject} from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 import { SindiHttp } from '../../seguranca/sindi-http';
 import { environment } from 'environments/environment';
@@ -114,5 +116,24 @@ export class TipoDocumentoService implements Resolve<any> {
                 }, reject);
         });
     }
+
+    getTiposDocumentos(): Observable<TipoDocumento[]> {
+        return this._http.get<TipoDocumento[]>(`${this.tipoDocumentoUrl}`)
+          .pipe(
+            tap(modosPagamentos => console.log('fetched modosPagamentos')),
+            catchError(this.handleError('getProducts', []))
+          );
+      }
+
+      private handleError<T> (operation = 'operation', result?: T): any {
+        return (error: any): Observable<T> => {
+      
+          // TODO: send the error to remote logging infrastructure
+          console.error(error); // log to console instead
+      
+          // Let the app keep running by returning an empty result.
+          return of(result as T);
+        };
+      }
 
 }

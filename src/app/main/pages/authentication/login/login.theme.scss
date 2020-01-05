@@ -1,4 +1,4 @@
-@mixin login-theme($theme) {
+@mixin login-4-theme($theme) {
 
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);

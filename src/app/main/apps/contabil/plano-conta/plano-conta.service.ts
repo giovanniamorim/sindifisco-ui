@@ -1,11 +1,13 @@
+import { tap, catchError } from 'rxjs/operators';
+import { PlanoConta } from './plano-conta.model';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Route } from '@angular/router';
-import { BehaviorSubject} from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/catch';
 import { SindiHttp } from '../../seguranca/sindi-http';
-import { environment } from 'environments/environment.hmr';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class PlanoContaService implements Resolve<any> {
@@ -27,7 +29,7 @@ export class PlanoContaService implements Resolve<any> {
     {
         // Set the defaults
         this.onPlanoContaChanged = new BehaviorSubject({});
-        this.planoContaUrl = `${environment}/modospagamentos`;
+        this.planoContaUrl = `${environment.apiUrl}/planoscontas`;
     }
 
     /**
@@ -111,5 +113,24 @@ export class PlanoContaService implements Resolve<any> {
                 }, reject);
         });
     }
+
+    getPlanosContas(): Observable<PlanoConta[]> {
+        return this._http.get<PlanoConta[]>(`${this.planoContaUrl}`)
+          .pipe(
+            tap(planosContas => console.log('fetched planoContas')),
+            catchError(this.handleError('getProducts', []))
+          );
+      }
+
+      private handleError<T> (operation = 'operation', result?: T): any {
+        return (error: any): Observable<T> => {
+      
+          // TODO: send the error to remote logging infrastructure
+          console.error(error); // log to console instead
+      
+          // Let the app keep running by returning an empty result.
+          return of(result as T);
+        };
+      }
 
 }

@@ -12,7 +12,7 @@ import { TodoService } from 'app/main/apps/todo/todo.service';
 @Component({
     selector     : 'todo-details',
     templateUrl  : './todo-details.component.html',
-    styleUrls    : ['./todo-details.component.scss'],
+    // styleUrls    : ['./todo-details.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })

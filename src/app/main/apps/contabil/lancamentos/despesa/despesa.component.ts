@@ -1,10 +1,15 @@
+import { PlanoContaService } from './../../plano-conta/plano-conta.service';
+import { PlanoConta } from './../../plano-conta/plano-conta.model';
+import { TiposDocumentosService } from './../../tipos-documentos/tipos-documentos.service';
+import { TipoDocumentoService } from './../../tipo-documento/tipo-documento.service';
+import { TipoDocumento } from './../../tipo-documento/tipo-documento.model';
 import { MatDatepicker } from '@angular/material';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import {  Despesa } from './despesa.model';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
@@ -12,7 +17,6 @@ import { DespesaService } from './despesa.service';
 import { Router } from '@angular/router';
 
 import Swal from 'sweetalert2';
-import { UploadFileService } from 'app/main/apps/upload/upload-file.service';
 import { ModoPagamento } from '../../modo-pagamento/modo-pagamento.model';
 import { ModoPagamentoService } from '../../modo-pagamento/modo-pagamento.service';
  
@@ -32,18 +36,13 @@ export class DespesaComponent implements OnInit, OnDestroy
     pageType: string;
     despesaForm: FormGroup;
 
-    modosPagamentos = [];
-    tiposDocumentos = [];
-
-    // Propriedade do upload
-    selectedFiles: FileList;
-    currentFileUpload: File;
-    progress: { percentage: number } = { percentage: 0 };
-
+    modosPagamentos: ModoPagamento[] = [];
+    tiposDocumentos: TipoDocumento[] = [];
+    planosContas: PlanoConta[] = [];
 
     // Private
     private _unsubscribeAll: Subject<any>;
-
+    
     /**
      * Constructor
      *
@@ -51,49 +50,73 @@ export class DespesaComponent implements OnInit, OnDestroy
      * @param {FormBuilder} _formBuilder
      * @param {Location} _location
      * @param {MatSnackBar} _matSnackBar
-     * @param {ModoPagamentoService} __modosPagamentosService
+     * @param {ModoPagamentoService} __modoPagamentoService
      */
     constructor(
-        private _despesaService: DespesaService,
         private _formBuilder: FormBuilder,
         private _router: Router,
-        private _uploadService: UploadFileService,
-        private _modosPagamentosService: ModoPagamentoService
+        private _despesaService: DespesaService,
+        private _modoPagamentoService: ModoPagamentoService,
+        private _tipoDocumentoService: TipoDocumentoService,
+        private _planoContaService: PlanoContaService
         
-        )
-        {
+        ) {
             // Set the default
             this.despesa = new Despesa();
-            
             // Set the private defaults
             this._unsubscribeAll = new Subject();
-
-            this.modosPagamentos = this.getModosPagamentos();
-            this.tiposDocumentos = this.getTiposDocumentos();
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void
-    {
-        // Subscribe to update despesa on changes
-        this._despesaService.onDespesaChanged
+        }
+        
+        // -----------------------------------------------------------------------------------------------------
+        // @ Lifecycle hooks
+        // -----------------------------------------------------------------------------------------------------
+        
+        /**
+         * On init
+         */
+        ngOnInit(): void
+        {
+            // Subscribe to update despesa on changes
+            this._despesaService.onDespesaChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(despesa => {
                 if ( despesa ){
                     this.despesa = new Despesa(despesa);
                     this.pageType = 'editar';
                 } else {
-                    this.pageType = 'nova';
+                    this.pageType = 'novo';
                     this.despesa = new Despesa();
                 }
                 this.despesaForm = this.createDespesaForm();
             });
+
+            // Lista Modos Pagamentos no select
+            this._modoPagamentoService.getModosPagamentos2()
+                .subscribe(res => {
+                    this.modosPagamentos = res;
+                    console.log(this.modosPagamentos);
+                }, err => {
+                console.log(err);
+                });
+
+            // Lista Tipos de Documentos no select
+            this._tipoDocumentoService.getTiposDocumentos()
+                .subscribe(res => {
+                    this.tiposDocumentos = res;
+                    console.log('Tipos de Documentos: ', this.tiposDocumentos);
+                }, err => {
+                    console.log(err);
+                });
+
+            // Lista os Planos de Contas no Select
+            this._planoContaService.getPlanosContas()
+                .subscribe(res => {
+                    this.planosContas = res;
+                    console.log('Planos de Contas:', this.planosContas);
+                }, err => {
+                    console.log(err);
+                });
+
     }
 
     /**
@@ -121,11 +144,11 @@ export class DespesaComponent implements OnInit, OnDestroy
         return this._formBuilder.group({
             id              : [this.despesa.id],
             data            : [this.despesa.data],
-            planoConta      : [this.despesa.planoConta],
-            modosPagamentos : [this.despesa.modosPagamentos],
+            planosContas    : [this.despesa.planoConta],
+            modosPagamentos : [this.despesa.modoPagamento],
             tipoLancamento  : [this.despesa.tipoLancamento],
             numCheque       : [this.despesa.numCheque],
-            tiposDocumentos : [this.despesa.tiposDocumentos],
+            tiposDocumentos : [this.despesa.tipoDocumento],
             numDocumento    : [this.despesa.numDocumento],
             supCaixa        : [this.despesa.supCaixa],
             observacao      : [this.despesa.observacao],
@@ -133,9 +156,13 @@ export class DespesaComponent implements OnInit, OnDestroy
             ano             : [this.despesa.ano],
             valor           : [this.despesa.valor]
         });
+        
+        console.log('Modos Pagamentos Vai: ', this.modosPagamentos);
+        console.log('Tipos de Documentos Vai: ', this.tiposDocumentos);
     }
-    
 
+
+    
     /**
      * Atualizar despesa
      */
@@ -176,46 +203,17 @@ export class DespesaComponent implements OnInit, OnDestroy
             });
     }
 
-    getModosPagamentos(): any{
-        return [
-            { id: '5', descricao: 'Dinheiro' },
-            { id: '6', descricao: 'Cheque' },
-            { id: '7', descricao: 'Transação Bancária' },
-            { id: '11', descricao: 'Cartão de Crédito' }
-          ];
+    compareModPag(mp1: any, mp2: any): any{
+        return (mp1.id === mp2.id && mp1.descricao === mp2.descricao);
     }
 
-    getTiposDocumentos(): any{
-        return [
-            { id: '2',  descricao: 'Boleto' },
-            { id: '3',  descricao: 'Recibo' },
-            { id: '4',  descricao: 'Cupom Fiscal' },
-            { id: '7',  descricao: 'Nota Fiscal' },
-            { id: '9',  descricao: 'Transferência Bancária' },
-            { id: '10', descricao: 'Cópia de Cheque' },
-            { id: '11', descricao: 'TED' },
-            { id: '12', descricao: 'DOC' }
-          ];
+    compareTipoDoc(td1: any, td2: any): any {
+        return (td1.id === td2.id && td1.descricao === td2.descricao);
     }
 
-    // Upload de Arquivos
-    selectFile(event): any {
-        this.selectedFiles = event.target.files;
+    compareContas(pc1: any, pc2: any): any {
+        return (pc1.id === pc2.id && pc1.descricao === pc2.descricao);
     }
-    
-    upload(): any {
-        this.progress.percentage = 0;
-        this.currentFileUpload = this.selectedFiles.item(0);
-        this._uploadService.pushFileToStorage(this.currentFileUpload)
-            .subscribe(event => {
-                if (event.type === HttpEventType.UploadProgress) {
-                    this.progress.percentage = Math.round(100 * event.loaded / event.total);
-                } else if (event instanceof HttpResponse) {
-                    console.log('Arquivo enviado com sucesso!');
-                }
-            });
-            this.selectedFiles = undefined;
-    }
-    
+
 }
 

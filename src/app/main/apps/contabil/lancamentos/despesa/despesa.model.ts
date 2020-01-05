@@ -8,10 +8,10 @@ export class Despesa
     id: string;
     data: string;
     planoConta: PlanoConta [];
-    modosPagamentos: ModoPagamento [];
+    modoPagamento: ModoPagamento [];
     tipoLancamento: TipoLancamento [];
     numCheque: string;
-    tiposDocumentos: TipoDocumento [];
+    tipoDocumento: TipoDocumento [];
     numDocumento: string;
     supCaixa: SupCaixa [];
     observacao: string;
@@ -32,15 +32,16 @@ export class Despesa
         this.id = despesa.id || '';
         this.data = despesa.data || '';
         this.planoConta = despesa.planoConta || '';
-        this.modosPagamentos = despesa.modosPagamentos || '';
+        this.modoPagamento = despesa.modoPagamento || '';
         this.tipoLancamento = despesa.tipoLancamento || '';
         this.numCheque = despesa.numCheque || '';
-        this.tiposDocumentos = despesa.tiposDocumentos || '';
+        this.tipoDocumento = despesa.tipoDocumento || '';
         this.numDocumento = despesa.numDocumento || '';
         this.supCaixa = despesa.supCaixa || '';
         this.observacao = despesa.observacao || '';
         this.imagemDocumento = despesa.imagemDocumento || '';
         this.ano = despesa.ano || '';
+        this.valor = despesa.valor || '';
 
     }
 

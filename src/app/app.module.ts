@@ -1,3 +1,5 @@
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GlobalErrorHandler } from './global-error-handler.service';
 import { UploadFileService } from './main/apps/upload/upload-file.service';
 import { JwtModule } from '@auth0/angular-jwt';
 import { HttpModule } from '@angular/http';
@@ -16,7 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
-import { registerLocaleData } from '@angular/common';
+import { registerLocaleData, CommonModule } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 
 registerLocaleData(localePt);
@@ -39,7 +41,8 @@ import { SegurancaModule, tokenGetter } from './main/apps/seguranca/seguranca.mo
 import { ToastyModule } from 'ng2-toasty';
 import { environment } from 'environments/environment';
 import { SindiHttp } from './main/apps/seguranca/sindi-http';
-
+import { Error404Component } from './main/pages/errors/404/error-404.component';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 const appRoutes: Routes = [
     {
@@ -70,10 +73,13 @@ const appRoutes: Routes = [
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        Error404Component,
     ],
     imports     : [
+        CommonModule,
         BrowserModule,
+        ReactiveFormsModule,
         BrowserAnimationsModule,
         HttpClientModule,
         HttpModule,
@@ -81,6 +87,7 @@ const appRoutes: Routes = [
         RouterModule.forRoot(appRoutes),
         MatInputModule,
         HttpClientModule,
+
 
         TranslateModule.forRoot(),
         InMemoryWebApiModule.forRoot(FakeDbService, {
@@ -135,7 +142,8 @@ const appRoutes: Routes = [
         UploadFileService,
         SindiHttp,
         { provide: LOCALE_ID, useValue: 'pt-BR' },
-        // { provide: ErrorHandler, useClass: GlobalErrorHandlerService },
+        { provide: ErrorHandler, useClass: GlobalErrorHandler },
+        { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
         // { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
     ]
 })

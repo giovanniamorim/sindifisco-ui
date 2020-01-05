@@ -1,6 +1,6 @@
 import { ModoPagamento } from './modo-pagamento.model';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -97,7 +97,7 @@ export class ModoPagamentoComponent implements OnInit, OnDestroy
     {
         return this._formBuilder.group({
             id              : [this.modoPagamento.id],
-            descricao       : [this.modoPagamento.descricao],
+            descricao       : [this.modoPagamento.descricao, Validators.required],
         });
     }
     

@@ -8,7 +8,7 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
     selector     : 'todo-list-item',
     templateUrl  : './todo-list-item.component.html',
-    styleUrls    : ['./todo-list-item.component.scss'],
+    // styleUrls    : ['./todo-list-item.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
 export class TodoListItemComponent implements OnInit, OnDestroy

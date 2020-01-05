@@ -113,21 +113,7 @@ const routes: Routes = [
         }
     },
     {
-        path     : 'lancamentos/despesa/:id/:handle',
-        component: LancamentosDespesasComponent,
-        data: { roles: ['ROLE_LANCAMENTO_ATUALIZAR'] },
-        canActivate: [AuthGuard],
-        resolve  : {
-            data: LancamentosDespesasService
-        }
-    },
-
-
-
-
-
-    {
-        path     : 'lancamentos/despesas/:id',
+        path     : 'lancamentos/despesa/:id',
         component: DespesaComponent,
         resolve  : {
             data: DespesaService

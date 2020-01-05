@@ -1,11 +1,13 @@
+import { ModoPagamento } from './modo-pagamento.model';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Route } from '@angular/router';
-import { BehaviorSubject} from 'rxjs';
+import { BehaviorSubject, of} from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 import { SindiHttp } from '../../seguranca/sindi-http';
 import { environment } from 'environments/environment';
 
 import 'rxjs/add/operator/catch';
+import { tap, catchError } from 'rxjs/operators';
 
 @Injectable()
 export class ModoPagamentoService implements Resolve<any>
@@ -78,7 +80,7 @@ export class ModoPagamentoService implements Resolve<any>
         });
     }
 
-        /**
+    /**
      * Get modoPagamento
      *
      * @returns {Promise<any>}
@@ -94,6 +96,15 @@ export class ModoPagamentoService implements Resolve<any>
             
         });
     }
+
+
+    getModosPagamentos2(): Observable<ModoPagamento[]> {
+        return this._http.get<ModoPagamento[]>(`${this.modoPagamentoUrl}`)
+          .pipe(
+            tap(modosPagamentos => console.log('fetched modosPagamentos')),
+            catchError(this.handleError('getProducts', []))
+          );
+      }
 
     
 
@@ -127,5 +138,17 @@ export class ModoPagamentoService implements Resolve<any>
                 }, reject);
         });
     }
+
+    private handleError<T> (operation = 'operation', result?: T): any {
+        return (error: any): Observable<T> => {
+      
+          // TODO: send the error to remote logging infrastructure
+          console.error(error); // log to console instead
+      
+          // Let the app keep running by returning an empty result.
+          return of(result as T);
+        };
+      }
+    
 
 }

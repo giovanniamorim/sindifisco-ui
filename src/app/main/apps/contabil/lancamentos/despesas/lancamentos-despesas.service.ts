@@ -11,6 +11,7 @@ import { environment } from 'environments/environment';
 export class LancamentosDespesasService implements Resolve<any>
 {
     despesasUrl: string;
+    novaDespesaUrl: string;
     despesas: any[];
     onDespesasChanged: BehaviorSubject<any>;
 
@@ -26,6 +27,7 @@ export class LancamentosDespesasService implements Resolve<any>
         // Set the defaults
         this.onDespesasChanged = new BehaviorSubject({});
         this.despesasUrl = `${environment.apiUrl}/lancamentos/despesas`;
+        this.novaDespesaUrl = `${environment.apiUrl}/lancamentos`;
     }
 
     /**

@@ -63,7 +63,7 @@ export class DespesaService implements Resolve<any> {
     getDespesa(): Promise<any>
     {
         return new Promise((resolve, reject) => {
-            if ( this.routeParams.id === 'nova' )
+            if ( this.routeParams.id === 'novo' )
             {
                 this.onDespesaChanged.next(false);
                 resolve(false);
@@ -88,7 +88,7 @@ export class DespesaService implements Resolve<any> {
      * @param despesa
      * @returns {Promise<any>}
      */
-    postDespesa(despesa): Promise<any>
+    addDespesa(despesa): Promise<any>
     {
         return new Promise((resolve, reject) => {
             this._http.post(`${this.despesasUrl}`, despesa)

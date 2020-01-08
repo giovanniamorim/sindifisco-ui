@@ -19,6 +19,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 
+
 import { registerLocaleData, CommonModule } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 
@@ -44,7 +45,12 @@ import { environment } from 'environments/environment';
 import { SindiHttp } from './main/apps/seguranca/sindi-http';
 import { Error404Component } from './main/pages/errors/404/error-404.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { CurrencyMaskModule } from 'ngx-currency-mask';
+import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from 'ngx-currency-mask/src/currency-mask.config';
+
+
 
 
 const appRoutes: Routes = [
@@ -73,6 +79,18 @@ const appRoutes: Routes = [
         loadChildren: './main/angular-material-elements/angular-material-elements.module#AngularMaterialElementsModule'
     }
 ];
+
+export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
+    align: 'right',
+    allowNegative: true,
+    allowZero: true,
+    decimal: ',',
+    precision: 2,
+    prefix: 'R$ ',
+    suffix: '',
+    thousands: '.'
+};
+
 
 @NgModule({
     declarations: [
@@ -119,6 +137,7 @@ const appRoutes: Routes = [
         MatSelectModule,
         MatRadioModule,
         MatFormFieldModule,
+        CurrencyMaskModule,
 
         // Fuse modules
         FuseModule.forRoot(fuseConfig),
@@ -146,6 +165,7 @@ const appRoutes: Routes = [
         { provide: LOCALE_ID, useValue: 'pt-BR' },
         { provide: ErrorHandler, useClass: GlobalErrorHandler },
         { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
+        { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }
         // { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
     ]
 })

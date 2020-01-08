@@ -1,5 +1,5 @@
 import { PlanoContaService } from './../../plano-conta/plano-conta.service';
-import { PlanoConta, SupCaixa, SupCaixaEnum } from './../../plano-conta/plano-conta.model';
+import { PlanoConta, SupCaixaEnum } from './../../plano-conta/plano-conta.model';
 import { TiposDocumentosService } from './../../tipos-documentos/tipos-documentos.service';
 import { TipoDocumentoService } from './../../tipo-documento/tipo-documento.service';
 import { TipoDocumento } from './../../tipo-documento/tipo-documento.model';
@@ -19,7 +19,8 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { ModoPagamento } from '../../modo-pagamento/modo-pagamento.model';
 import { ModoPagamentoService } from '../../modo-pagamento/modo-pagamento.service';
- 
+import { formatDate } from '@angular/common';
+
 
 
 @Component({
@@ -189,9 +190,9 @@ export class DespesaComponent implements OnInit, OnDestroy
     /**
      * Nova despesa
      */
-    novaDespesa(): void {
+    addDespesa(): void {
         const data = this.despesaForm.getRawValue();
-        this._despesaService.postDespesa(data)
+        this._despesaService.addDespesa(data)
             .then(() => {
                 this._despesaService.onDespesaChanged.next(data);
                 // Mostra mensagem de sucesso

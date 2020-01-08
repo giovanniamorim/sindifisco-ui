@@ -8,6 +8,16 @@ export enum SupCaixaEnum {
     NÃO = 'NÃO'
 }
 
+export enum AnoEnum {
+    _2016 = '2016',
+    _2017 = '2017',
+    _2018 = '2018',
+    _2019 = '2019',
+    _2020 = '2020',
+    _2021 = '2021',
+    _2022 = '2022',
+}
+
 export interface TipoProfundidade {
     valor: string;
     descricao: string;

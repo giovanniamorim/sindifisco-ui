@@ -1,10 +1,6 @@
-# Fuse - Angular
+# Sindifisco-ui - Angular
 
-Material Design Admin Template with Angular 7+ and Angular Material
-
-## The Community
-
-Share your ideas, discuss Fuse and help each other.
+Frontend baseado em Material e Angular 7+
 
 ## Development server
 
